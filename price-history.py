@@ -85,10 +85,10 @@ class Database:
         item.to_array()
       )
       self.__connection.commit()
-      print(f"added: {item.name}x{item.quantity}")
+      #print(f"added: {item.name}x{item.quantity}")
     except Exception as e:
       pass
-      print(f"skip:  {item.name}x{item.quantity}")
+      #print(f"skip:  {item.name}x{item.quantity}")
 
   def close(self):
     self.__connection.commit()
