@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import requests, hashlib, sqlite3, atexit, os
 from bs4 import BeautifulSoup
 

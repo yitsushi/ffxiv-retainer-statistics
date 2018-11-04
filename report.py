@@ -1,5 +1,6 @@
-import sqlite3
+#!/usr/bin/env python
 
+import sqlite3
 
 print('# Daily income:')
 print('')
