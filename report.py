@@ -38,6 +38,10 @@ queries = {
                     group by name, ishq
                     order by avg(price/quantity) desc
                     limit 5;''',
+    'last5': '''select name, price, ishq, quantity, datetime(date, 'unixepoch')
+                    from sales_history
+                    order by date desc
+                    limit 5;''',
 }
 
 retainers = {
@@ -50,13 +54,16 @@ retainers = {
 
 
 for line in section(title='Daily Income', query=queries['daily']):
-    print('  {0:12s}{1:15,} g'.format(line[0], round(line[1])))
+    print('  {0:12s}{1:10,} g'.format(line[0], round(line[1])))
 
 for line in section(title='Last Three Days Leaderboard', query=queries['leaderboard']):
-    print('  {0:12s}{1:15,} g'.format(retainers[line[0]], round(line[1])))
+    print('  {0:12s}{1:10,} g'.format(retainers[line[0]], round(line[1])))
 
-for line in section(title='Top 5 Products (per item) in the last 5 days', query=queries['uniq_price']):
-    print('  {2} {0:40s}{1:15,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' '))
+for line in section(title='Top 5 Products (per item) in the last 5 days (Avg price)', query=queries['uniq_price']):
+    print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' '))
 
-for line in section(title='Top 5 Bulk Products in the last 5 days', query=queries['sum_price']):
+for line in section(title='Top 5 Bulk Products in the last 5 days (Avg price)', query=queries['sum_price']):
     print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3]))
+
+for line in section(title='Last 5 item', query=queries['last5']):
+    print(' [{4:s}] {3:2d}x {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3], line[4]))
