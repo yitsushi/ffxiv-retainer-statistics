@@ -6,3 +6,5 @@ retainers:
   ad32977801: Chimomo
   6f49aebcb1: Liwita
   f2d1754992: Chookity
+log_directory: /home/yitsushi/Repos/gitlab.com/yitsushi/ffxiv-retainer-statistics/log
+data_directory: /home/yitsushi/Repos/gitlab.com/yitsushi/ffxiv-retainer-statistics/data

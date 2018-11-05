@@ -1,12 +1,16 @@
 import sqlite3, atexit, logging
+from .config import Config
 
-logging.basicConfig(filename='log/price-history.log', level=logging.INFO)
+config = Config()
+logging.basicConfig(filename=f'{config.log_dir()}/price-history.log', level=logging.INFO)
 
 class Database:
   __connection = None
   __cursor = None
 
-  def __init__(self, path='data/retainers.db'):
+  def __init__(self, path=None):
+    if path is None:
+      path = f'{config.data_dir()}/retainers.db'
     atexit.register(self.close)
     self.__connection = sqlite3.connect(path)
     self.__cursor = self.__connection.cursor()
