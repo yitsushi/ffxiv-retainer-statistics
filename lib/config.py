@@ -4,7 +4,12 @@ class Config:
   __data = None
 
   def __init__(self):
-    f = open(f'{os.getenv("HOME")}/.config/ffxiv/app.yaml', 'r')
+    if os.getenv('RETAINER_CONFIG') is not None:
+      path = os.getenv('RETAINER_CONFIG')
+    else:
+      path = f'{os.getenv("HOME")}/.config/ffxiv/app.yaml'
+      
+    f = open(path, 'r')
     self.__data = yaml.load(f)
 
   def retainer_ids(self):
