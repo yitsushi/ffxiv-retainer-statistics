@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 
 import sqlite3
+from lib import Database
+
+db = Database()
 
 def section(*, title, query):
     print('')
     print(f'# {title}')
     print('')
 
-    connection = sqlite3.connect('retainers.db')
-    cursor = connection.cursor()
-    cursor.execute(query)
-    for line in cursor.fetchall():
-        yield line
+    for line in db.execute(query):
+      yield line
 
-    connection.close()
     print('')
 
 queries = {
