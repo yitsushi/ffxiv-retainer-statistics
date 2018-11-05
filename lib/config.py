@@ -24,3 +24,15 @@ class Config:
   
   def log_dir(self):
     return self.__data['log_directory']
+
+  def sendgrid_token(self):
+    return self.__data['sendgrid']['token']
+
+  def sendgrid_to(self):
+    return [{'email': r['email'], 'name': r['name']} for r in self.__data['sendgrid']['to']]
+
+  def sendgrid_from(self):
+    return {
+      'email': self.__data['sendgrid']['from']['email'],
+      'name': self.__data['sendgrid']['from']['name'],
+    }
