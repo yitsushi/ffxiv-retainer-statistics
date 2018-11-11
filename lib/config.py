@@ -37,7 +37,17 @@ class Config:
     return [{'email': r['email'], 'name': r['name']} for r in self.__data['sendgrid']['to']]
 
   def sendgrid_from(self):
-    return {
-      'email': self.__data['sendgrid']['from']['email'],
-      'name': self.__data['sendgrid']['from']['name'],
-    }
+    return self.__data['sendgrid']['from']
+
+  def mailgun_api_key(self):
+    return self.__data['mailgun']['api_key']
+
+  def mailgun_domain(self):
+    return self.__data['mailgun']['domain']
+
+  def mailgun_from(self):
+    f = self.__data['mailgun']['from']
+    return f'{f["name"]} <{f["email"]}>'
+  
+  def mailgun_to(self):
+    return [f"{to['name']} <{to['email']}>" for to in self.__data['mailgun']['to']]

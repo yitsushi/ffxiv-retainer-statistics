@@ -41,7 +41,7 @@ queries = {
     'lastN': '''select name, price, ishq, quantity, datetime(date, 'unixepoch')
                     from sales_history
                     order by date desc
-                    limit 3;''',
+                    limit 5;''',
 }
 
 retainers = {
@@ -53,7 +53,7 @@ retainers = {
 
 
 
-for line in section(title='Daily Income', query=queries['daily']):
+for line in section(title='Daily Income (7 days)', query=queries['daily']):
     print('  {0:12s}{1:10,} g'.format(line[0], round(line[1])))
 
 for line in section(title='Last Three Days Leaderboard', query=queries['leaderboard']):

@@ -3,6 +3,7 @@
 import sqlite3
 from lib import Database
 from lib import SendGrid
+from lib import MailGun
 
 db = Database()
 
@@ -70,13 +71,13 @@ for line in section(output=generated_lines, title='Top 5 Bulk Products in the la
 for line in section(output=generated_lines, title='Last N items', query=queries['lastN']):
     generated_lines.append(' [{4:s}] {3:2d}x {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3], line[4]))
 
-lines = "\n".join(generated_lines)
-content = f'''
+text = "\n".join(generated_lines)
+html = f'''
 <html>
 <body>
 <pre>
-{lines}
+{text}
 </pre>
 </body>
 </html>'''
-SendGrid().send(content)
+MailGun().send(text, html)
