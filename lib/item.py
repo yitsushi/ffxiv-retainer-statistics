@@ -1,36 +1,44 @@
 import hashlib
 
-class Item:
-    id = None
-    name = None
-    quantity = None
-    isHQ = False
-    price = None
-    date = None
-    buyer = None
-    retainer = None
-    character = None
+class Item(object):
+  id = None
+  recipe_id = None
+  job = None
+  level = None
+  name = None
+  ingredients = None
+  properties = None
 
-    def __init__(self, row, character, retainer):
-        self.character = character
-        self.retainer = retainer
+  def __init__(self):
+    self.ingredients = {}
+    self.properties = {
+      'quantity': 1,
+      'durability': 0,
+      'difficulty': 0,
+      'max_quality': 0
+    }
 
-        name = row.find('p', attrs={'class': 'item-list__name'})
-        img = name.find('img')
-        self.isHQ = (img is not None)
-        (self.name, self.quantity) = [n.strip('()\t ') for n in name.text.strip().split('\n') if n.strip() != '']
-        self.quantity = int(self.quantity)
+  def to_array(self):
+    return []
 
-        self.price = int(row.find('div', attrs={'class': 'item-list__item item-list__cell--sm'}).text.replace(',', ''))
-        self.date = int(row.find('span')['data-epoch'])
-        self.buyer = row.find('div', attrs={'class': 'item-list__item item-list__cell--md'}).text
+  def add_ingredient(self, id, quantity):
+    self.ingredients[id] = quantity
 
-        base = f'{self.name}|{self.buyer}'
-        self.id = "{0}{1}".format(hashlib.sha256(base.encode()).hexdigest(), self.date)
+  def set_property(self, key, value):
+    self.properties[key] = value
 
-    def to_array(self):
-      return [
-        self.id, self.name, self.quantity, self.isHQ,
-        self.price, self.date, self.buyer,
-        self.retainer, self.character
-      ]
+  def from_db_row(item):
+    current = Item()
+    (
+        current.id,
+        current.job,
+        current.recipe_id,
+        current.level,
+        current.name,
+        current.properties['quantity'],
+        current.properties['durability'],
+        current.properties['difficulty'],
+        current.properties['max_quality']
+    ) = item[1:]
+
+    return current

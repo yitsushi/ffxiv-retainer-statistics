@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+from lib import Config
+from lib import Database
+from lib import Lodestone
+
+db = Database()
+config = Config()
+ls = Lodestone(config.character(), config.session_id())
+
+from multiprocessing import Pool, Queue, Process
+pool = Pool()
+
+def get_job_done(job, func, queue):
+  print(job)
+  for recipe in func(job, db):
+    queue.put(recipe)
+
+queue = Queue()
+
+def save_things(queue):
+  print(' -- Save Thread Start')
+  while True:
+    item = queue.get()
+    if item is None:
+      print(' -- Save Thread Done')
+      break
+    print(f'[S] <{item.job}> {item.name}')
+
+
+
+queue = Queue()
+
+def save_things(queue, db):
+  print(' -- Save Thread Start')
+  while True:
+    item = queue.get()
+    if item is None:
+      print(' -- Save Thread Done')
+      break
+    db.save_recipe(item)
+    print(f'[S] <{item.job}> {item.name}')
+
+# Fetch Threads
+processes = [Process(target=get_job_done, args=(x, ls.crafting_log, queue)) for x in ls.crafter_jobs]
+processes += [Process(target=get_job_done, args=(x, ls.gathering_log, queue)) for x in ls.gatherer_jobs]
+
+# Save thread
+save = Process(target=save_things, args=(queue, db))
+save.start()
+
+for p in processes:
+    p.start()
+
+for p in processes:
+    p.join()
+
+queue.put(None)
+save.join()
+
+print('Done...')
