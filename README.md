@@ -142,3 +142,28 @@ HOME=/home/youruser
 @hourly    RETAINER_CONFIG=~/.config/ffxiv/charactername.yaml /path/to/the/repo//ffxiv-retainer-statistics/price-history
 @daily     RETAINER_CONFIG=~/.config/ffxiv/charactername.yaml /path/to/the/repo/ffxiv-retainer-statistics/email-report
 ```
+
+## Extra
+
+It uses a simple sqlite database, so you can make your extra tools like based on Pyros,
+check your income from Logograms a simple Bash script looks like this:
+
+```
+#!/bin/bash
+
+sqlite3 ~/.data/ffixv/charactername/data/retainers.db \
+        -line \
+        "select name, sum(price), sum(quantity) from sales_history where name like '%logogram%' group by name;"
+
+echo -e "\n === Summary:\n"
+sqlite3 ~/.data/ffixv/charactername/data/retainers.db \
+        -line \
+        "select sum(price), sum(quantity) from sales_history where name like '%logogram%';"
+```
+
+## TODO
+
+ * Parse/list retainer inventory
+ * Parse/list on sale items
+ * List all items you craft from inventories of your retainers
+ * Collaborate with ffxivteamcraft.com, so this tool can generate an item list you can import on ffxivteamcraft.com
