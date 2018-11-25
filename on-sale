@@ -15,8 +15,9 @@ retainers = {
         'ad32977801': 'Chimomo',
         '6f49aebcb1': 'Liwita',
         'f2d1754992': 'Chookity',
-        }
+}
 
+runtime_cache = {}
 
 class Summary:
     number_of_items = 0
@@ -36,8 +37,14 @@ for retainer in config.retainer_ids():
 
     summary = Summary()
     for item in items:
+        if item.name in runtime_cache:
+            price = runtime_cache[item.name]
+        else:
+            price = api_client.price(item.name)
+            runtime_cache[item.name] = price
+
         grade = 'hq' if item.isHQ else 'nq'
-        price = api_client.price(item.name)[grade]
+        price = price[grade]
 
         summary.add(item, price)
         total_summary.add(item, price)

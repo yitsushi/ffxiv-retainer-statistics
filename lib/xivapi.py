@@ -25,7 +25,8 @@ class XIVAPI:
             "language": "en"
         }
         url = 'https://xivapi.com/search'
-        return json.loads(requests.get(url, query).text)['Results']
+        response = requests.get(url, query).text
+        return json.loads(response)['Results']
 
     def find_exact(self, name):
         items = self.find(name)
