@@ -34,6 +34,9 @@ mailgun:
   to:
    - email: your.email@address
      name: Your Name
+xivapi:
+  key: your api key from https://xivapi.com/
+  market: Moogle
 ```
 
 If you want to use more than one account:

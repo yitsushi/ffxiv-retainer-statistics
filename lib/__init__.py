@@ -5,3 +5,4 @@ from .lodestone import Lodestone
 from .sendgrid import SendGrid
 from .mailgun import MailGun
 from .item import Item
+from .xivapi import XIVAPI

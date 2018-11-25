@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
+from lib import Config
 from lib import Database
 from lib import Item
+from lib import XIVAPI
 import sys
 
+config = Config()
 db = Database()
+api_client = XIVAPI(config.xivapi_key(), config.xivapi_market())
 
 def fetch_ingredients(recipe_id, db):
   ing = {}
@@ -21,7 +25,10 @@ def find_item(id, db):
 def print_item_tree(item, db, quantity = 1, indentation_level=0):
   indent = '    ' * indentation_level
   q = '{:3d}x '.format(quantity)
-  print(f'{indent}{q}[{item.job}::{item.level}] {item.name}')
+  price = api_client.price(item.name)
+  pricetag = f'HQ:{price["hq"]["min"]}/NQ:{price["nq"]["min"]}'
+  pricetag_qty = f'HQ:{price["hq"]["min"]*quantity}/NQ:{price["nq"]["min"]*quantity}'
+  print(f'{indent}{q}[{item.job}::{item.level}] {item.name}  -> {pricetag} -> sum:{pricetag_qty}')
   item.ingredients = fetch_ingredients(item.recipe_id, db)
   for key in item.ingredients:
     ing = find_item(key, db)
@@ -35,3 +42,4 @@ except:
 
 for item in db.execute(f'''select * from items where name like '%{name}%';'''):
   print_item_tree(Item.from_db_row(item), db)
+

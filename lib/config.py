@@ -48,6 +48,12 @@ class Config:
   def mailgun_from(self):
     f = self.__data['mailgun']['from']
     return f'{f["name"]} <{f["email"]}>'
-  
+
   def mailgun_to(self):
     return [f"{to['name']} <{to['email']}>" for to in self.__data['mailgun']['to']]
+
+  def xivapi_key(self):
+    return self.__data['xivapi']['key']
+
+  def xivapi_market(self):
+    return self.__data['xivapi']['market']
