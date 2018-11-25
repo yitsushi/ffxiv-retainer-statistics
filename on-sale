@@ -40,7 +40,7 @@ for retainer in config.retainer_ids():
         price = api_client.price(item.name)[grade]
 
         summary.add(item, price)
-        total_summary(item, price)
+        total_summary.add(item, price)
         print(
             "  {:2d}x {:1s}{:40s} {:8d} => {:8d} | {:8d} => {:8d}".format(
                 item.quantity, ("*" if item.isHQ else " "), item.name,
