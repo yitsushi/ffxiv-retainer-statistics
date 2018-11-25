@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from .sellitem import SellItem
+from .onsaleitem import OnSaleItem
 from .item import Item
 import re
 
@@ -164,3 +165,10 @@ class Lodestone:
     item.id = item_id
     item.recipe_id = 'None'
     return item
+
+  def on_sale(self, retainer):
+    content = self.download(f'/character/{self.__character}/retainer/{retainer}/')
+    parsed = BeautifulSoup(content, 'html.parser')
+    table = parsed.body.find('div', attrs={'name': 'tab__market-list'})
+    rows = table.find_all('li', attrs={'class': 'item-list__list'})
+    return [OnSaleItem(row, self.__character, retainer) for row in rows]
