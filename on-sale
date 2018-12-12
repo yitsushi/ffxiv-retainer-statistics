@@ -10,13 +10,6 @@ config = Config()
 ls = Lodestone(config.character(), config.session_id())
 api_client = XIVAPI(config.xivapi_key(), config.xivapi_market())
 
-retainers = {
-        'f49f0239a5': 'Lominsaret',
-        'ad32977801': 'Chimomo',
-        '6f49aebcb1': 'Liwita',
-        'f2d1754992': 'Chookity',
-}
-
 runtime_cache = {}
 
 class Summary:
@@ -33,7 +26,7 @@ total_summary = Summary()
 
 for retainer in config.retainer_ids():
     items = ls.on_sale(retainer=retainer)
-    print(f"\n# {retainers[retainer]}\n")
+    print(f"\n# {config.retainer(retainer)}\n")
 
     summary = Summary()
     for item in items:
