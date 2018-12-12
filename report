@@ -2,7 +2,9 @@
 
 import sqlite3
 from lib import Database
+from lib import Config
 
+config = Config()
 db = Database()
 
 def section(*, title, query):
@@ -44,20 +46,11 @@ queries = {
                     limit 5;''',
 }
 
-retainers = {
-        'f49f0239a5': 'Lominsaret',
-        'ad32977801': 'Chimomo',
-        '6f49aebcb1': 'Liwita',
-        'f2d1754992': 'Chookity',
-}
-
-
-
 for line in section(title='Daily Income (7 days)', query=queries['daily']):
     print('  {0:12s}{1:10,} g'.format(line[0], round(line[1])))
 
 for line in section(title='Last Three Days Leaderboard', query=queries['leaderboard']):
-    print('  {0:12s}{1:10,} g'.format(retainers[line[0]], round(line[1])))
+    print('  {0:12s}{1:10,} g'.format(config.retainer(line[0]), round(line[1])))
 
 for line in section(title='Top 5 Products (per item) in the last 5 days (Avg price)', query=queries['uniq_price']):
     print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' '))
