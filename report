@@ -43,7 +43,7 @@ queries = {
     'lastN': '''select name, price, ishq, quantity, datetime(date, 'unixepoch')
                     from sales_history
                     order by date desc
-                    limit 5;''',
+                    limit 10;''',
 }
 
 for line in section(title='Daily Income (7 days)', query=queries['daily']):
