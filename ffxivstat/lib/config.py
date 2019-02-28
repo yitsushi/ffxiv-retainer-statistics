@@ -1,4 +1,4 @@
-import yaml, os
+import yaml, os, pathlib
 
 class Config:
   __data = None
@@ -8,7 +8,7 @@ class Config:
       path = os.getenv('RETAINER_CONFIG')
     else:
       path = f'{os.getenv("HOME")}/.config/ffxiv/app.yaml'
-      
+
     f = open(path, 'r')
     self.__data = yaml.load(f)
 
@@ -25,9 +25,11 @@ class Config:
     return self.__data['session']
 
   def data_dir(self):
+    pathlib.Path(self.__data['data_directory']).mkdir(parents=True, exist_ok=True)
     return self.__data['data_directory']
-  
+
   def log_dir(self):
+    pathlib.Path(self.__data['log_directory']).mkdir(parents=True, exist_ok=True)
     return self.__data['log_directory']
 
   def sendgrid_token(self):

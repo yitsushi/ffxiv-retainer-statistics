@@ -5,7 +5,7 @@
 Example:
 
 ```
-# ~/.config/ffxiv/app.yaml
+# ~/.config//app.yaml
 ---
 session: "ldst_sess from cookies from lodestone"
 character: "your-character-id"
@@ -41,7 +41,7 @@ xivapi:
 
 If you want to use more than one account:
 
-  * use per character config files: ~/.config/ffxiv/charactername.yaml
+  * use per character config files: ~/.config//charactername.yaml
   * specify `RETAINER_CONFIG` environment variable
 
 ## Commands
@@ -142,8 +142,8 @@ report                          generates a report about your retainers / income
 ```
 HOME=/home/youruser
 
-@hourly    RETAINER_CONFIG=~/.config/ffxiv/charactername.yaml /path/to/the/repo//ffxiv-retainer-statistics/price-history
-@daily     RETAINER_CONFIG=~/.config/ffxiv/charactername.yaml /path/to/the/repo/ffxiv-retainer-statistics/email-report
+@hourly    RETAINER_CONFIG=~/.config//charactername.yaml /path/to/the/repo//-retainer-statistics/price-history
+@daily     RETAINER_CONFIG=~/.config//charactername.yaml /path/to/the/repo/-retainer-statistics/email-report
 ```
 
 ## Extra
@@ -169,4 +169,4 @@ sqlite3 ~/.data/ffixv/charactername/data/retainers.db \
  * Parse/list retainer inventory
  * Parse/list on sale items
  * List all items you craft from inventories of your retainers
- * Collaborate with ffxivteamcraft.com, so this tool can generate an item list you can import on ffxivteamcraft.com
+ * Collaborate with teamcraft.com, so this tool can generate an item list you can import on teamcraft.com

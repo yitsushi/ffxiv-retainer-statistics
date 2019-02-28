@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 import sqlite3
-from lib import Database
-from lib import Config
+from ffxivstat.lib import Database
+from ffxivstat.lib import Config
 
 config = Config()
 db = Database()
@@ -46,17 +44,18 @@ queries = {
                     limit 10;''',
 }
 
-for line in section(title='Daily Income (7 days)', query=queries['daily']):
-    print('  {0:12s}{1:10,} g'.format(line[0], round(line[1])))
+def run():
+    for line in section(title='Daily Income (7 days)', query=queries['daily']):
+        print('  {0:12s}{1:10,} g'.format(line[0], round(line[1])))
 
-for line in section(title='Last Three Days Leaderboard', query=queries['leaderboard']):
-    print('  {0:12s}{1:10,} g'.format(config.retainer(line[0]), round(line[1])))
+    for line in section(title='Last Three Days Leaderboard', query=queries['leaderboard']):
+        print('  {0:12s}{1:10,} g'.format(config.retainer(line[0]), round(line[1])))
 
-for line in section(title='Top 5 Products (per item) in the last 5 days (Avg price)', query=queries['uniq_price']):
-    print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' '))
+    for line in section(title='Top 5 Products (per item) in the last 5 days (Avg price)', query=queries['uniq_price']):
+        print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' '))
 
-for line in section(title='Top 5 Bulk Products in the last 5 days (Avg price)', query=queries['sum_price']):
-    print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3]))
+    for line in section(title='Top 5 Bulk Products in the last 5 days (Avg price)', query=queries['sum_price']):
+        print('  {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3]))
 
-for line in section(title='Last N items', query=queries['lastN']):
-    print(' [{4:s}] {3:2d}x {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3], line[4]))
+    for line in section(title='Last N items', query=queries['lastN']):
+        print(' [{4:s}] {3:2d}x {2} {0:40s}{1:10,} g'.format(line[0], round(line[1]), '*' if line[2] == 1 else ' ', line[3], line[4]))
