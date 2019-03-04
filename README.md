@@ -14,17 +14,14 @@ retainers:
   ad32977801: Chimomo
   6f49aebcb1: Liwita
   f2d1754992: Chookity
-log_directory: /home/yourusername/.data/ffixv/yourcharacter/log
 data_directory: /home/yourusername/.data/ffixv/yourcharacter/data
-sendgrid:
-  id: api-id
-  token: api-token
-  from:
-    email: no-reply@from-email-address
-    name: FFXIV Retainer Statistics System
-  to:
-   - email: your.email@address
-     name: Your Name
+database:
+  type: postgres
+  host: hostname
+  port: 5432
+  user: username
+  password: password
+database:
 mailgun:
   domain: your domain
   api_key: api-key
@@ -34,9 +31,6 @@ mailgun:
   to:
    - email: your.email@address
      name: Your Name
-xivapi:
-  key: your api key from https://xivapi.com/
-  market: Moogle
 ```
 
 If you want to use more than one account:
@@ -47,46 +41,11 @@ If you want to use more than one account:
 ## Commands
 
 ```
-craftable-gatherable-items      downloads craftable and gatherable items/recipes
-direct-items                    downloads items for craftable items (not listed as craftable)
 email-report                    send an email about your income
-find                            find a recipe
 price-history                   downloads your sold items history
 report                          generates a report about your retainers / income
 ```
 
-### find
-
-```
-> ./find "Tigerskin Tricorne of Striking"
-  1x [LTW::65] Tigerskin Tricorne of Striking
-      2x [LTW::64] Tiger Leather
-          6x [None::None] Tiger Skin
-          2x [MIN_mining::60] Gyr Abanian Alumen
-          8x [MIN_quarrying::26] Earth Crystal
-      1x [GSM::64] Durium Nugget
-          4x [MIN_quarrying::66] Durium Sand
-          1x [MIN_mining::25] Silver Ore
-          4x [MIN_quarrying::26] Wind Crystal
-      1x [GSM::62] Koppranickel Ingot
-          4x [MIN_mining::63] Koppranickel Ore
-          1x [GSM::61] Koppranickel Nugget
-              4x [MIN_quarrying::61] Koppranickel Sand
-              1x [MIN_mining::1] Copper Ore
-              3x [MIN_quarrying::26] Wind Crystal
-          3x [MIN_quarrying::26] Wind Crystal
-      1x [WVR::62] Ruby Cotton Yarn
-          4x [BTN_harvesting::63] Ruby Cotton Boll
-          3x [MIN_quarrying::26] Lightning Crystal
-      1x [ALC::63] Grade 1 Reisui of Strength
-          1x [MIN_mining::61] Gyr Abanian Mineral Water
-          2x [BTN_harvesting::63] Holy Basil
-          2x [BTN_harvesting::58] Rue
-          1x [MIN_quarrying::63] Diatomite
-          4x [MIN_quarrying::26] Water Crystal
-      4x [MIN_quarrying::26] Earth Crystal
-      4x [MIN_quarrying::26] Wind Crystal
-```
 
 ### report
 
@@ -163,10 +122,3 @@ sqlite3 ~/.data/ffixv/charactername/data/retainers.db \
         -line \
         "select sum(price), sum(quantity) from sales_history where name like '%logogram%';"
 ```
-
-## TODO
-
- * Parse/list retainer inventory
- * Parse/list on sale items
- * List all items you craft from inventories of your retainers
- * Collaborate with teamcraft.com, so this tool can generate an item list you can import on teamcraft.com

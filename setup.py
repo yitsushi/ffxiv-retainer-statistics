@@ -13,7 +13,9 @@ setup(
     install_requires=[
         'BeautifulSoup4',
         'requests',
-        'pyyaml'
+        'pyyaml',
+        'pony',
+        'psycopg2cffi',
     ],
     entry_points="""
     [console_scripts]
