@@ -1,10 +1,23 @@
-.PHONY: all clean
+VENV = .venv
+VIRTUALENV = virtualenv
+BIN = $(VENV)/bin
+PYTHON = $(BIN)/python
 
-all:
-	python setup.py develop
+INSTALL = $(BIN)/pip install
 
-dist: clean
-	python setup.py bdist bdist_wheel
+.PHONY: all clean dist build
+
+all: build
+
+$(PYTHON):
+	$(VIRTUALENV) $(VTENV_OPTS) $(VENV)
+
+build: $(PYTHON)
+	$(PYTHON) setup.py develop
+
+dist:
+	$(INSTALL) wheel
+	$(PYTHON) setup.py sdist bdist_wheel
 
 clean:
-	rm -rf dist build
+	rm -rf $(VENV)
