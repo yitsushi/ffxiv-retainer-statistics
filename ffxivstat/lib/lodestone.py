@@ -1,4 +1,5 @@
 import hashlib
+import re
 import requests
 from bs4 import BeautifulSoup
 from collections import namedtuple
@@ -44,13 +45,18 @@ class Lodestone:
 
     for row in rows:
         name_tag = row.find('p', attrs={'class': 'item-list__name'})
-        img = name_tag.find('img')
-        is_hq = (img is not None)
-        (name, quantity) = [n.strip('()\t ') for n in name_tag.text.strip().split('\n') if n.strip() != '']
-        quantity = int(quantity)
+        is_hq = False
+        # img = name_tag.find('img')
+        # is_hq = (img is not None)
+        name = name_tag.text.strip()
+        quantity = int(re.search(r'\((\d+)\)', name).group(1))
+        if '\ue03c' in name:
+            is_hq = True
+        name = name[:-(len(str(quantity)) + 2)]
+        name = name.replace('\ue03c', '')
 
         price = int(row.find('div', attrs={'class': 'item-list__item item-list__cell--sm'}).text.replace(',', ''))
-        date = int(row.find('span')['data-epoch'])
+        date = int(row.find('span', attrs={'class': 'datetime_dynamic_ymdhm'})['data-epoch'])
         buyer = row.find('div', attrs={'class': 'item-list__item item-list__cell--md'}).text
 
         base = f'{name}|{buyer}'
